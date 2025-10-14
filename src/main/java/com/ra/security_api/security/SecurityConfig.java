@@ -38,8 +38,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth->{
                     auth.requestMatchers("/api/v1/carts").authenticated();
                     auth.requestMatchers("/api/v1/products").permitAll();
-                    auth.requestMatchers("/api/v1/auth/**").permitAll();
-
+                    auth.requestMatchers("/api/v1/auth/**","/swagger-ui/**","/swagger-ui.html").permitAll();
+                    auth.anyRequest().permitAll();
                 }).sessionManagement(
                         auth->
                                 auth.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -1,5 +1,6 @@
 package com.ra.security_api.service.impl;
 
+import com.ra.security_api.exception.HttpConflict;
 import com.ra.security_api.model.dto.DataResponse;
 import com.ra.security_api.model.dto.LoginRequestDTO;
 import com.ra.security_api.model.dto.RegisterRequestDTO;
@@ -52,6 +53,9 @@ public class AuthServiceImp implements AuthService {
 
     @Override
     public DataResponse register(RegisterRequestDTO registerRequestDTO) {
+        if (userRepository.existsUserByUsername(registerRequestDTO.getUsername())) {
+            throw new HttpConflict("Username is already in use");
+        }
         // gan quyen cho tai khoan dang kys macj dich quyen la USER
         Set<Role> roles = new HashSet<>();
         Role role = roleRepository.findRoleByName("USER");
